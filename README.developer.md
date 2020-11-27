@@ -69,8 +69,7 @@ https://github.com/sdwfrost/biobash
 * INSTALL: installation instructions, for final users.
 * README.developer: this file.
 * README: Readme file for final users.
-* source: Contains source code, from which "release content" is created.
-* release: Directory containing all BB scripts, this is the directory from where final users install BB.
+* source: Contains source code.
 * test: data files for testing BB.
 
 
