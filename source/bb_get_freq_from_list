@@ -1,11 +1,21 @@
+#!/bin/bash
 	if [ -z "$1" ] ; then
-		echo "
-		bb_get_freq_from_list: given a one column list of items, this function outputs
-		three columns: Col1 frequency of item, Col2 Relative percentage, Col3 the item itself.
-		Usage: bb_get_freq_from_list [INPUT FILE]
-		"
-	fi
+	echo "
+	=== bb_get_freq_from_list ===
 	
+	bb_get_freq_from_list: 
+	Given a one column list of items, this function outputs
+	three columns: Col1 frequency of item, Col2 Relative 
+	percentage, Col3 the item itself.
+	
+	Missing argument.
+	
+	Usage: 
+	bb_get_freq_from_list [INPUT FILE]
+	"
+	exit 0
+	fi
+
 	FILE=$(bb_create_tmp_file)
 	FILE2=$(bb_create_tmp_file)
 	cat $1 | sort | uniq -c > $FILE
@@ -23,7 +33,7 @@
 			perc=$(echo "scale=2;($freq*100)/$numCat" | bc -l)
 			perc=$(echo $perc "	")
 			echo "$freq" "$perc" "$col2" >> $FILE2
-	
+
 	done < $FILE
 	sort -gr $FILE2 #gr numerical sort in reverse order.
 

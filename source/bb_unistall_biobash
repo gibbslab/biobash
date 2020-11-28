@@ -1,44 +1,43 @@
 #!/bin/bash
-echo ""
-echo " == BIOBASH UNINSTALLING =="
-    
-bbf=$(which bb_dos2unix)
-bbdir=$(dirname $bbf)
-
-echo "This program will uninstall the following tools from your system:"
-echo ""
-
-for i in $(ls $bbdir/*bb_*);do
-    echo $i
-done
-
-echo ""
-read -p  "Do you want me to unistall these tools (yes/no)?: " var
-echo ""
-
-
-#Translate everything uppercase to lowercase
-continue=$(echo $var | tr '[:upper:]' '[:lower:]')
-
-if [ $continue = "yes" ];then
-    
-    echo "Unistalling all BIOBASH tools from: $bbdir"
-
-    #MAIN PROCESS!
-    #This is still dangerous maybe a not BB script could be removed.
-    #Try to implement a prefixed list of tools.
-    rm $bbdir/*bb_*
-    
-    echo "Done. Good bye!"
-    echo""
-    exit 0
-fi
-
-if [ $continue = "no" ];then
-    echo "Nothing done. Good bye."
     echo ""
-else
-    echo "Please answer Yes or No."
-    echo "Nothing done. Leaving."
+    echo " == BIOBASH UNINSTALLING =="
+    
+    bbf=$(which bb_dos2unix)
+    bbdir=$(dirname $bbf)
+
+    echo "This program will uninstall the following tools from your system:"
     echo ""
-fi
+
+    for i in $(ls $bbdir/*bb_*);do
+        echo $i
+    done
+
+    echo ""
+    read -p  "Do you want me to unistall these tools (yes/no)?: " var
+    echo ""
+
+    #Translate everything uppercase to lowercase
+    continue=$(echo $var | tr '[:upper:]' '[:lower:]')
+
+    if [ $continue = "yes" ];then
+    
+        echo "Unistalling all BIOBASH tools from: $bbdir"
+
+        #MAIN PROCESS!
+        #This is still dangerous maybe a not BB script could be removed.
+        #Try to implement a prefixed list of tools.
+        rm $bbdir/*bb_*
+    
+        echo "Done. Good bye!"
+        echo""
+        exit 0
+    fi
+
+    if [ $continue = "no" ];then
+        echo "Nothing done. Good bye."
+        echo ""
+    else
+        echo "Please answer Yes or No."
+        echo "Nothing done. Leaving."
+        echo ""
+    fi

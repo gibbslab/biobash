@@ -1,8 +1,18 @@
+#!/bin/bash
 	if [ -z "$1" ] ; then
-		 echo "
-		 bb_remove_empty_lines: removes empty lines from a file.
-		 Usage: bb_remove_empty_lines [INPUT FILE]
-		 "
+	echo "
+	=== bb_remove_empty_lines ===
+	
+	bb_remove_empty_lines: 
+	Removes empty lines from a file.
+	
+	Missing argument.
+	
+	Usage: 
+	bb_remove_empty_lines [INPUT FILE]
+	"
+	exit 0
 	fi
-		sed '/^$/d' $1
+	
+	sed '/^$/d' $1
 

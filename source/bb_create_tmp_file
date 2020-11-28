@@ -1,2 +1,3 @@
-F="/tmp/$RANDOM"
-echo $F
+#!/bin/bash
+    F="/tmp/$RANDOM"
+    echo $F

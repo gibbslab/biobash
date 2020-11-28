@@ -1,15 +1,27 @@
-	
+#!/bin/bash
+
 	if [ -z "$1" ] ; then
-		echo "
-		bb_get_GC_content: gets the GC percentage of a file.
-		Usage: bb_get_GC_content [INPT FILE]
-		"
+	echo "
+	=== bb_get_GC_content ===
+	
+	bb_get_GC_content: 
+	Gets the GC percentage of a file.
+	
+	Missing argument.
+	
+	Usage: 
+	bb_get_GC_content [INPT FILE]
+	"
+	exit 0
 	fi
+
 	isMultiple=$(grep -c '>' $1)
+
 	if [ "$isMultiple" -gt "1" ] ; then
 		echo "This is a multiple fasta file. You need a single fasta file."
 		exit
 	fi
+
 	numResidues=$(bb_count_residues $1)
 	g=$(cat $1 | sed -e '/^>/d' | tr -d '\n' | grep -oi 'G' | wc -l | awk '{print $1}')
 	c=$(cat $1 | sed -e '/^>/d' | tr -d '\n' | grep -oi 'C' | wc -l | awk '{print $1}')

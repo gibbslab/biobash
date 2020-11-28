@@ -1,8 +1,18 @@
+#!/bin/bash
 	if [ -z "$1" ] ; then
-		echo "
-		bb_get_fasta_headers: ouputs a list of all fasta headers in a file.
-		Usage: bb_get_fasta_headers [INPUT FILE]
-		"
+	echo "
+	=== bb_get_fasta_headers ===
+	
+	bb_get_fasta_headers: 
+	Ouputs a list of all fasta headers in a file.
+	
+	Missing argument.
+	
+	Usage: 
+	bb_get_fasta_headers [INPUT FILE]
+	"
+		exit 0
 	fi
+	
 	grep '>' $1  | sed -e 's/>//'
 	

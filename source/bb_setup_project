@@ -20,7 +20,7 @@
 #analysis/
 #  ...|_01_QC/
 #  ...|_02_cleaning/
- # ...|_03_Alignment
+#  ...|_03_Alignment
 #  ...|_04_Assembly
 #  ...|_05_Annotation 
 #tmp/
@@ -31,123 +31,121 @@
 #results/
 #manuscript/
 
-
-
-
-if [ -z "$1" ] ; then
-echo "
-=== bb_project_setup ===
-
-bb_project_setup: Sets up a template directory structure for general
-analysis in Bioinformatics.
-
-Usage: 
-bb_project_setup [PROJECT_NAME]
-
-(Note that spaces are not allowed in: PROJECT_NAME) 
+	if [ -z "$1" ] ; then
+		echo "
+	=== bb_project_setup ===
+	
+	bb_project_setup: 
+	Sets up a template directory structure for general
+	analysis in Bioinformatics.
+	
+	Missing argument.
+	
+	Usage: 
+	bb_project_setup [PROJECT_NAME]
+	(Note that spaces are not allowed in: PROJECT_NAME) 
 	"
-    exit 0
-fi
+		exit 0
+	fi
+
+	#create project's root directory it will be in the form:
+	# 20201024_MyProjectName
+	actualDate=$(date)
+	mydate=$(date +"%Y%m%d")
+	rootDir=$(echo "$mydate-$1")
+
+	if [[ -d $rootDir ]];then
+		echo " 
+        
+		[WARNING] Directory $rootDir already exists. Please remove/rename before creating a new project. Good bye.
+        
+		"
+		exit 0
+	fi
+
+	mkdir $rootDir
+	cd $rootDir
 
 
-#create project's root directory it will be in the form:
-# 20201024_MyProjectName
-actualDate=$(date)
-mydate=$(date +"%Y%m%d")
-rootDir=$(echo "$mydate-$1")
+	#
+	#Create notebook file.
+	#
+	touch notebook.md
+	echo "
+	#                      PROJECT'S NOTEBOOK
 
-if [[ -d $rootDir ]];then
-    echo " 
-    
-    [WARNING] Directory $rootDir already exists. Please remove/rename before creating a new project. Good bye.
-    
-    "
-    exit 0
-fi
+	This is a template for project notebook. The idea is to register
+	all commands and related info, everything should dated.
 
-mkdir $rootDir
-cd $rootDir
+	##$actualDate: Initial steps
+	------------------------------
+	Copied files from NCBI to raw data directory
 
 
-#
-#Create notebook file.
-#
-touch notebook.md
-echo "
- #                      PROJECT'S NOTEBOOK
-
-This is a template for project notebook. The idea is to register
-all commands and related info, everything should dated.
-
-##$actualDate: Initial steps
-------------------------------
-Copied files from NCBI to raw data directory
+	##$actualDate: General quality analysis
+	------------------------------
+	Performed a simple *Fastqc analysis* over raw data. Everything was saved to Analysis folder.
+	The command was:
+	> fastqc raw_data/*fq
+	" >> notebook.md
 
 
-##$actualDate: General quality analysis
-------------------------------
-Performed a simple *Fastqc analysis* over raw data. Everything was saved to Analysis folder.
-The command was:
-> fastqc raw_data/*fq
-" >> notebook.md
+	#
+	#Create about file.
+	#
+	touch about.md
+	echo "
+	#                      ABOUT THIS PROJECT
 
+	* Project started on: $actualDate
 
-#
-#Create about file.
-#
-touch about.md
-echo "
-#                      ABOUT THIS PROJECT
+	## GENERAL OBJECTIVE
 
-* Project started on: $actualDate
+	## COLABORATORS
 
-## GENERAL OBJECTIVE
+	## RELATED INFO
+	" >> about.md
 
-## COLABORATORS
+	#
+	# Create README template
+	#
+	echo "
+	# README                
 
-## RELATED INFO
-" >> about.md
+	## $actualDate
+	First files copied here
 
-#
-# Create README template
-#
-echo "
-# README                
+	## $actualDate
+	Other important info related to this particular folder
+	" > README.tpt
 
-## $actualDate
-First files copied here
+	#
+	# Create directories and README files.
+	# Seems not, but it is very useful to have a single README in each directory.
+	#
+	mkdir sandbox data tmp tools docs results manuscript analysis
+	cp README.tpt sandbox/README.sandbox.md
+	cp README.tpt data/README.data.md
+	cp README.tpt analysis/README.analysis.md
+	cp README.tpt tools/README.tools.md
+	cp README.tpt tmp/README.tmp.md
+	cp README.tpt docs/README.docs.md
+	cp README.tpt results/README.results.md
 
-## $actualDate
-Other important info related to this particular folder
-" > README.tpt
+	rm README.tpt
 
-#
-# Create directories and README files.
-# Seems not, but it is very useful to have a single README in each directory.
-#
-mkdir sandbox data tmp tools docs results manuscript analysis
-cp README.tpt sandbox/README.sandbox.md
-cp README.tpt data/README.data.md
-cp README.tpt analysis/README.analysis.md
-cp README.tpt tools/README.tools.md
-cp README.tpt tmp/README.tmp.md
-cp README.tpt docs/README.docs.md
-cp README.tpt results/README.results.md
+	#Create sub-directories
+	cd ./analysis
+	mkdir 01 02 03 04
+	cd ../tools
+	mkdir soft scripts
+	cd ../data
+	mkdir raw_data other_data
+	echo "
+	=== DONE!==
+	Environment created. REMEMBER that raw_data directory permissions
+	should be set like: chmod -R -w raw_data, to prevent erasing raw data.
+	Good bye.
+	===========
 
-rm README.tpt
-
-#Create sub-directories
-cd ./analysis
-mkdir 01 02 03 04
-cd ../tools
-mkdir soft scripts
-cd ../data
-mkdir raw_data other_data
-echo "
-=== DONE!==
-Environment created. REMEMBER that raw_data directory permissions
-should be set like: chmod -R -w raw_data, to prevent erasing raw data.
-Good bye.
-===========
-
-"
+	"

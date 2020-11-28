@@ -1,46 +1,49 @@
 #!/bin/bash
 #Comments: this can be helpful,Extracts from line 5 to 10 in input.txt file: sed -n '5,10 p' input.txt
 	
-	
-	
 	if [ -z "$2" ] ; then
-		echo "
-		bb_extract_fasta_entry: Extracts a single fasta sequence from a multiple fasta file.
-		Usage: bb_extract_fasta_entry [INPUT FILE] [SEQUENCE ID]
-		"
+	echo "
+	=== bb_extract_fasta_entry ===
+	
+	bb_extract_fasta_entry: 
+	Extracts a single fasta sequence from a multiple fasta file.
+	
+	Missing argument.
+	
+	Usage: 
+	bb_extract_fasta_entry [INPUT FILE] [SEQUENCE ID]
+	"
+	exit 0
 	fi
-		
+			
 	#anchor finds the row number of the sequence to extract, it comes in the form:
 	#line_number:fasta_header
 	#120:>Prodigal Gene 2 # 2901 # 3311 # 1 is extracted with "cut"	
 	header=$(grep -nw $2 $1)
-	
+
 	if [ -z "$header" ]; then
-			
-	 		echo "Pattern not found. Leaving process."
-		 		
+		echo "Pattern not found. Leaving process."
 	fi
-		 	
+			
 	anchor=$(echo "$header" | cut -d ':' -f1)
-	
+
 	#restore fasta header, taking out the line number and dots.
 	header=$(echo "$header" | sed -e 's/'$anchor'://')
- 	
+		
 	#It is necessary to sum 1 to anchor because when evaluated if ">" is present
 	#there will be no output, since anchor has the ">" character
 	anchor=$((anchor+1))
-	
+
 	echo "$header"
 	sed -n "$anchor"',$p' $1 | 
 	while read line; do
 		
 		#read/buffer until you find a ">" character
 		#if regexp present then isNewSeq = 1
-	 	isNewSeq=$(echo "$line" | grep -c '>')
-	 	if [ $isNewSeq -lt 1 ]; then
-	 		echo "$line"
-		 		
-	 	else
-	 		exit
-	 	fi
+		isNewSeq=$(echo "$line" | grep -c '>')
+		if [ $isNewSeq -lt 1 ]; then
+			echo "$line"	
+		else
+			exit
+		fi
 	done 

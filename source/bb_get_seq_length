@@ -1,17 +1,24 @@
 #!/bin/bash
 # Adapted from: https://gist.github.com/danielecook/394958db37c4d01f0ef3
 
-if [ -z  "$1" ]; then
-    echo "
-        bb_get_seq_length: Displays sequences length from a single/multiple fasta file
-    
-       Usage: bb_get_seq_length [FASTA FILE]
-    "
-    exit
-fi
+	if [ -z  "$1" ]; then
+	echo "
+	=== bb_get_seq_length ===
+		
+	bb_get_seq_length: 
+	Displays sequences length from a single/multiple
+	fasta file
+		
+	Missing argument.
+		
+	Usage: 
+	bb_get_seq_length [FASTA FILE]
+	"
+	exit 0
+	fi
 
-#This option runs in 1/2 of the time
-#awk '$1 ~ ">" {print c; c=0;printf substr($1,2,100) "\t"; } $1 !~ ">" {c+=length($1);} END { print c; }' $1 
+	#This option runs in 1/2 of the time
+	#awk '$1 ~ ">" {print c; c=0;printf substr($1,2,100) "\t"; } $1 !~ ">" {c+=length($1);} END { print c; }' $1 
 
-#This option is 50% slower but outputs the table sorted by number in decreasing order.
-awk '$1 ~ ">" {print c; c=0;printf substr($1,2,100) "\t"; } $1 !~ ">" {c+=length($1);} END { print c; }' $1 | awk '{printf("%s\t%s\n", $2, $1)}' | sort -n
+	#This option is 50% slower but outputs the table sorted by number in decreasing order.
+	awk '$1 ~ ">" {print c; c=0;printf substr($1,2,100) "\t"; } $1 !~ ">" {c+=length($1);} END { print c; }' $1 | awk '{printf("%s\t%s\n", $2, $1)}' | sort -n
