@@ -22,5 +22,5 @@
 	fi
 	
 	# first colum is obtained from result, otherwise an space appears at left.
-	read -t 0 | cat $input | sed -e '/^>/d' | tr -d '\n' | wc -m | awk '{print $1}'
+	cat $input | sed -e '/^>/d' | tr -d '\n' | wc -m | awk '{print $1}'
 	

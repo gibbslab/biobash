@@ -22,4 +22,4 @@
 		fi
 	fi
 	
-	read -t 0 | cat $1 | col -b
+	cat $1 | col -b
