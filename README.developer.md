@@ -75,13 +75,7 @@ https://github.com/sdwfrost/biobash
 
 ## DEVELOPERS
 
-Main Developer:
-Andres Pinzon Ph.D.
-Bioinformatics and Systems Biology Group
-Institute for Genetics
-National University of Colombia
-ampinzonv@unal.edu.co
+Andres Pinzon (ampinzonv@unal.edu.co)
+Nicolás Gomez (x)ngomezca@unal.edu.co)
+Nicolás Mendoza (nimendozam@unal.edu.co)
 
-
-Other main developers ;)
--- YOUR NAME HERE --
