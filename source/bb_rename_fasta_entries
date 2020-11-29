@@ -1,21 +1,30 @@
 #!/bin/bash
 # Script taken from: https://github.com/sdwfrost/biobash
 
-	if [ -z "$2" ] ; then
-	echo "
-	=== bb_rename_fasta_entries ===
 	
-	bb_rename_fasta_entries: 
-	Renames the header of a FASTA file.
-	
-	Missing argument.
-	
-	Usage: 
-	bb_rename_fasta_entries [INPUT FILE] [STRING]
-	"
-		exit 0
+
+	if [ $# -ge 1 -a -f "$1" ]; then
+		input="$1" 
+		pattern=$2
+	else
+		if [ $# -le 0 -o -t 0 ]; then
+			echo "
+			=== bb_rename_fasta_entries ===
+			
+			bb_rename_fasta_entries: 
+			Renames the header of a FASTA file.
+			
+			Missing argument.
+			
+			Usage: 
+			bb_rename_fasta_entries [INPUT FILE] [STRING]
+			"
+			exit 0
+		fi
+		input="-" 
+		pattern=$1
 	fi
 
-	awk -v str=$2 '/^>/{print ">" str "_" ++i; next}{print}' < $1
+	cat $input | awk -v str=$pattern '/^>/{print ">" str "_" ++i; next}{print}'
 
 

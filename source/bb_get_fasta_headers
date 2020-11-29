@@ -1,18 +1,23 @@
 #!/bin/bash
-	if [ -z "$1" ] ; then
-	echo "
-	=== bb_get_fasta_headers ===
-	
-	bb_get_fasta_headers: 
-	Ouputs a list of all fasta headers in a file.
-	
-	Missing argument.
-	
-	Usage: 
-	bb_get_fasta_headers [INPUT FILE]
-	"
-		exit 0
+	if [ $# -ge 1 -a -f "$1" ]; then
+		input="$1" 
+	else
+		input="-" 
+		if [[ -t 0 ]]; then
+			echo "
+			=== bb_get_fasta_headers ===
+			
+			bb_get_fasta_headers: 
+			Ouputs a list of all fasta headers in a file.
+			
+			Missing argument.
+			
+			Usage: 
+			bb_get_fasta_headers [INPUT FILE]
+			"
+			exit 0
+		fi
 	fi
 	
-	grep '>' $1  | sed -e 's/>//'
+	grep '>' $input  | sed -e 's/>//'
 	
