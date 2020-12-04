@@ -1,4 +1,21 @@
 #!/bin/bash
+	function help() {
+	echo "	
+	=== bb_count_seqs ===
+	
+	bb_count_seqs: 
+	Counts the number of fasta or fastq sequences in a file.
+	
+	Missing argument.
+	
+	Usage: 
+	bb_count_seqs [INPUT FILE]
+	cat [INPUT FILE] | bb_count_seqs --extension [EXTENSION NAME]
+	
+	Expects the following file extensions: .fasta, .fastq,
+	.fa or .fq
+	"	
+	}
 
 	POSITIONAL=()
 	while [[ $# -gt 0 ]]; do
@@ -23,21 +40,7 @@
 	else
 		input="-" 
 		if [ -t 0 -o -z "$EXTENSION" ]; then
-			echo "	
-			=== bb_count_seqs ===
-			
-			bb_count_seqs: 
-			Counts the number of fasta or fastq sequences in a file.
-			
-			Missing argument.
-			
-			Usage: 
-			bb_count_seqs [INPUT FILE]
-			cat [INPUT FILE] | bb_count_seqs --extension [EXTENSION NAME]
-			
-			Expects the following file extensions: .fasta, .fastq,
-			.fa or .fq
-			"	
+			help
 			exit 0
 		fi
 	fi

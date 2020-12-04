@@ -1,27 +1,30 @@
 #!/bin/bash
+	function help() {
+	echo "
+	=== bb_benchmark_script ===
+	
+	bb_benchmark_script : 
+	Given a large input file and a list of bash scripts,
+	this function outputs a table of the time that the
+	script took to run.
+
+	Col1 size of the file tested, Col2 and forward are
+	the time for each bash script.
+
+	The scripts to be benchmarked should support the flowing
+	input format:
+	
+	script [INPUT FILE]
+	
+	Missing argument.
+	
+	Usage: 
+	bb_benchmark_script [INPUT FILE] [SCRIPTS LIST] ...
+	" 
+	}
 
 	if [ -z "$2" ] ; then
-		echo "
-		=== bb_benchmark_script ===
-		
-		bb_benchmark_script : 
-		Given a large input file and a list of bash scripts,
-		this function outputs a table of the time that the
-		script took to run.
-
-		Col1 size of the file tested, Col2 and forward are
-		the time for each bash script.
-
-		The scripts to be benchmarked should support the flowing
-		input format:
-		
-		script [INPUT FILE]
-		
-		Missing argument.
-		
-		Usage: 
-		bb_benchmark_script [INPUT FILE] [SCRIPTS LIST] ...
-		"
+		help
 		exit 0
 	fi
 

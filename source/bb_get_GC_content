@@ -1,6 +1,6 @@
 #!/bin/bash
 
-	if [ -z "$1" ] ; then
+	function help() {
 	echo "
 	=== bb_get_GC_content ===
 	
@@ -12,13 +12,18 @@
 	Usage: 
 	bb_get_GC_content [INPT FILE]
 	"
-	exit 0
+	}
+
+	if [ -z "$1" ] ; then
+		help
+		exit 0
 	fi
 
 	isMultiple=$(grep -c '>' $1)
 
 	if [ "$isMultiple" -gt "1" ] ; then
 		echo "This is a multiple fasta file. You need a single fasta file."
+		help
 		exit
 	fi
 

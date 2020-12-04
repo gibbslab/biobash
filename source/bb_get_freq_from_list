@@ -1,5 +1,5 @@
 #!/bin/bash
-	if [ -z "$1" ] ; then
+	function help() {
 	echo "
 	=== bb_get_freq_from_list ===
 	
@@ -13,7 +13,10 @@
 	Usage: 
 	bb_get_freq_from_list [INPUT FILE]
 	"
-	exit 0
+	}
+	if [ -z "$1" ] ; then
+		help
+		exit 0
 	fi
 
 	FILE=$(bb_create_tmp_file)

@@ -1,5 +1,18 @@
 #!/bin/bash
 #Comments: this can be helpful,Extracts from line 5 to 10 in input.txt file: sed -n '5,10 p' input.txt
+	function help() {
+	echo "
+	=== bb_extract_fasta_entry ===
+	
+	bb_extract_fasta_entry: 
+	Extracts a single fasta sequence from a multiple fasta file.
+	
+	Missing argument.
+	
+	Usage: 
+	bb_extract_fasta_entry [INPUT FILE] [SEQUENCE_IDs] ...
+	"
+	}
 	
 	# See if the first argument is equal to another argument
 	in_args() {
@@ -19,17 +32,7 @@
 	else
 		input="-" 
 		if [[ -t 0 ]]; then
-			echo "
-			=== bb_extract_fasta_entry ===
-			
-			bb_extract_fasta_entry: 
-			Extracts a single fasta sequence from a multiple fasta file.
-			
-			Missing argument.
-			
-			Usage: 
-			bb_extract_fasta_entry [INPUT FILE] [SEQUENCE_IDs] ...
-			"
+			help
 			exit 0
 		fi
 	fi

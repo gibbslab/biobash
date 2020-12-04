@@ -1,20 +1,24 @@
 #!/bin/bash
+	function help() {
+	echo "
+	=== bb_remove_empty_lines ===
+	
+	bb_remove_empty_lines: 
+	Removes empty lines from a file.
+	
+	Missing argument.
+	
+	Usage: 
+	bb_remove_empty_lines [INPUT FILE]
+	"
+	}
+
 	if [ $# -ge 1 -a -f "$1" ]; then
 		input="$1" 
 	else
 		input="-" 
 		if [[ -t 0 ]]; then
-			echo "
-			=== bb_remove_empty_lines ===
-			
-			bb_remove_empty_lines: 
-			Removes empty lines from a file.
-			
-			Missing argument.
-			
-			Usage: 
-			bb_remove_empty_lines [INPUT FILE]
-			"
+			help
 			exit 0
 		fi
 	fi

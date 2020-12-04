@@ -1,24 +1,26 @@
 #!/bin/bash
 # Script taken from: https://github.com/sdwfrost/biobash
 
+	function help() {
+	echo "
+	=== bb_rename_fasta_entries ===
 	
+	bb_rename_fasta_entries: 
+	Renames the header of a FASTA file.
+	
+	Missing argument.
+	
+	Usage: 
+	bb_rename_fasta_entries [INPUT FILE] [STRING]
+	"
+	}
 
 	if [ $# -ge 1 -a -f "$1" ]; then
 		input="$1" 
 		pattern=$2
 	else
 		if [ $# -le 0 -o -t 0 ]; then
-			echo "
-			=== bb_rename_fasta_entries ===
-			
-			bb_rename_fasta_entries: 
-			Renames the header of a FASTA file.
-			
-			Missing argument.
-			
-			Usage: 
-			bb_rename_fasta_entries [INPUT FILE] [STRING]
-			"
+			help
 			exit 0
 		fi
 		input="-" 

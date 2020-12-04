@@ -1,25 +1,29 @@
 #!/bin/bash 
 
+	function help() {
+	echo "
+	=== bb_remove_fasta_headers ===
+	
+	bb_remove_fasta_header: 
+	Removes all fasta headers from a multipe o single fasta 
+	file. Useful to concatenate a multiple fasta file.
+	
+	If you want to create a list of all fasta headers in a 
+	file use: bb_get_fasta_headers.
+	
+	Missing argument.
+	
+	Usage: 
+	bb_remove_fasta_headers [INPUT FILE]
+	"
+	}
+
 	if [ $# -ge 1 -a -f "$1" ]; then
 		input="$1" 
 	else
 		input="-" 
 		if [[ -t 0 ]]; then
-			echo "
-			=== bb_remove_fasta_headers ===
-			
-			bb_remove_fasta_header: 
-			Removes all fasta headers from a multipe o single fasta 
-			file. Useful to concatenate a multiple fasta file.
-			
-			If you want to create a list of all fasta headers in a 
-			file use: bb_get_fasta_headers.
-			
-			Missing argument.
-			
-			Usage: 
-			bb_remove_fasta_headers [INPUT FILE]
-			"
+			help
 			exit 0
 		fi
 	fi

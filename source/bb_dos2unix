@@ -1,23 +1,25 @@
 #!/bin/bash
 #Usually this function would remove all windows characters from end of line...
 #not sure about it, maybe get it out or create a more robust one.
+	function help() {
+	echo "
+	=== bb_dos2unix ===
+	
+	bb_dos2unix: 
+	Removes windows characters from end of line.
+	
+	Missing argument.
+	
+	Usage: 
+	bb_dos2unix [INPUT FILE]
+	"
+	}
 	
 	if [ $# -ge 1 -a -f "$1" ]; then
 		input="$1" 
 	else
 		input="-" 
 		if [[ -t 0 ]]; then
-			echo "
-			=== bb_dos2unix ===
-			
-			bb_dos2unix: 
-			Removes windows characters from end of line.
-			
-			Missing argument.
-			
-			Usage: 
-			bb_dos2unix [INPUT FILE]
-			"
 			exit 0
 		fi
 	fi

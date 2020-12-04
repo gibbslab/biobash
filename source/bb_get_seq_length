@@ -1,23 +1,27 @@
 #!/bin/bash
 # Adapted from: https://gist.github.com/danielecook/394958db37c4d01f0ef3
 
+	function help() {
+	echo "
+	=== bb_get_seq_length ===
+		
+	bb_get_seq_length: 
+	Displays sequences length from a single/multiple
+	fasta file
+		
+	Missing argument.
+		
+	Usage: 
+	bb_get_seq_length [FASTA FILE]
+	"
+	}
+
 	if [ $# -ge 1 -a -f "$1" ]; then
 		input="$1" 
 	else
 		input="-" 
 		if [[ -t 0 ]]; then
-			echo "
-			=== bb_get_seq_length ===
-				
-			bb_get_seq_length: 
-			Displays sequences length from a single/multiple
-			fasta file
-				
-			Missing argument.
-				
-			Usage: 
-			bb_get_seq_length [FASTA FILE]
-			"
+			help
 			exit 0
 		fi
 	fi
