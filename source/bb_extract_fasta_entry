@@ -1,6 +1,7 @@
 #!/bin/bash
 #Comments: this can be helpful,Extracts from line 5 to 10 in input.txt file: sed -n '5,10 p' input.txt
-	function help() {
+	
+	if [ -z "$2" ] ; then
 	echo "
 	=== bb_extract_fasta_entry ===
 	
@@ -10,48 +11,39 @@
 	Missing argument.
 	
 	Usage: 
-	bb_extract_fasta_entry [INPUT FILE] [SEQUENCE_IDs] ...
+	bb_extract_fasta_entry [INPUT FILE] [SEQUENCE ID]
 	"
-	}
-	
-	# See if the first argument is equal to another argument
-	in_args() {
-		local _line=$1
-		shift 1
-		for f in $* ; do
-			if [ $f == $_line ]; then 
-				return 0
-			fi
-		done
-		return 1
-	}
-
-	if [ $# -ge 1 -a -f "$1" ]; then
-		input="$1" 
-		shift 1
-	else
-		input="-" 
-		if [[ -t 0 ]]; then
-			help
-			exit 0
-		fi
+	exit 0
 	fi
+			
+	#anchor finds the row number of the sequence to extract, it comes in the form:
+	#line_number:fasta_header
+	#120:>Prodigal Gene 2 # 2901 # 3311 # 1 is extracted with "cut"	
+	header=$(grep -nw $2 $1)
 
-	match=1
+	if [ -z "$header" ]; then
+		echo "Pattern not found. Leaving process."
+	fi
+			
+	anchor=$(echo "$header" | cut -d ':' -f1)
 
-	cat $input | while read line; do
-		# if the line begins with ">" is_header = 1
-		is_header=$(echo "$line" | grep -c '^>')
-		if [ $is_header -lt 1 ]; then
-			# If inside a matching entry print contents
-			[[ $match -eq 0 ]] && echo "$line"
+	#restore fasta header, taking out the line number and dots.
+	header=$(echo "$header" | sed -e 's/'$anchor'://')
+		
+	#It is necessary to sum 1 to anchor because when evaluated if ">" is present
+	#there will be no output, since anchor has the ">" character
+	anchor=$((anchor+1))
+
+	echo "$header"
+	sed -n "$anchor"',$p' $1 | 
+	while read line; do
+		
+		#read/buffer until you find a ">" character
+		#if regexp present then isNewSeq = 1
+		isNewSeq=$(echo "$line" | grep -c '>')
+		if [ $isNewSeq -lt 1 ]; then
+			echo "$line"	
 		else
-			# Check if the entry header is the arguments list
-			if in_args ${line:1} $* ; then
-				echo $line
-				match=0
-			else 
-				match=1
-			fi
+			exit
 		fi
-	done
+	done 

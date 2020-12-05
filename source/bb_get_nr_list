@@ -1,6 +1,6 @@
 #!/bin/bash
 	
-	function help() {
+	if [ -z "$1" ] ; then
 	echo "
 	=== bb_get_nr_list ===
 	
@@ -18,23 +18,14 @@
 	Usage: 
 	bb_get_nr_list [INPUT FILE]
 	"
-	}
-
-	if [ $# -ge 1 -a -f "$1" ]; then
-		input="$1" 
-	else
-		input="-" 
-		if [[ -t 0 ]]; then
-			help
-			exit 0
-		fi
+	exit 0
 	fi
 	
 	FILEA=$(bb_create_tmp_file)
 	FILEB=$(bb_create_tmp_file)
 	FILEC=$(bb_create_tmp_file)
 	
-	cat $input | sort  > $FILEA
+	cat $1 | sort  > $FILEA
 	uniq -u $FILEA > $FILEB
 	uniq -d $FILEA > $FILEC
 	cat $FILEB $FILEC | sort

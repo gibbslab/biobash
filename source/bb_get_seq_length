@@ -1,7 +1,7 @@
 #!/bin/bash
 # Adapted from: https://gist.github.com/danielecook/394958db37c4d01f0ef3
 
-	function help() {
+	if [ -z  "$1" ]; then
 	echo "
 	=== bb_get_seq_length ===
 		
@@ -14,20 +14,11 @@
 	Usage: 
 	bb_get_seq_length [FASTA FILE]
 	"
-	}
-
-	if [ $# -ge 1 -a -f "$1" ]; then
-		input="$1" 
-	else
-		input="-" 
-		if [[ -t 0 ]]; then
-			help
-			exit 0
-		fi
+	exit 0
 	fi
 
 	#This option runs in 1/2 of the time
-	# awk '$1 ~ ">" {print c; c=0;printf substr($1,2,100) "\t"; } $1 !~ ">" {c+=length($1);} END { print c; }' $input 
+	#awk '$1 ~ ">" {print c; c=0;printf substr($1,2,100) "\t"; } $1 !~ ">" {c+=length($1);} END { print c; }' $1 
 
 	#This option is 50% slower but outputs the table sorted by number in decreasing order.
-	awk '$1 ~ ">" {print c; c=0;printf substr($1,2,100) "\t"; } $1 !~ ">" {c+=length($1);} END { print c; }' $input | awk '{printf("%s\t%s\n", $2, $1)}' | sort -n
+	awk '$1 ~ ">" {print c; c=0;printf substr($1,2,100) "\t"; } $1 !~ ">" {c+=length($1);} END { print c; }' $1 | awk '{printf("%s\t%s\n", $2, $1)}' | sort -n

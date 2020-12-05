@@ -1,7 +1,7 @@
 #!/bin/bash
 # Script taken from: https://github.com/sdwfrost/biobash
 
-	function help() {
+	if [ -z "$2" ] ; then
 	echo "
 	=== bb_rename_fasta_entries ===
 	
@@ -13,20 +13,9 @@
 	Usage: 
 	bb_rename_fasta_entries [INPUT FILE] [STRING]
 	"
-	}
-
-	if [ $# -ge 1 -a -f "$1" ]; then
-		input="$1" 
-		pattern=$2
-	else
-		if [ $# -le 0 -o -t 0 ]; then
-			help
-			exit 0
-		fi
-		input="-" 
-		pattern=$1
+		exit 0
 	fi
 
-	cat $input | awk -v str=$pattern '/^>/{print ">" str "_" ++i; next}{print}'
+	awk -v str=$2 '/^>/{print ">" str "_" ++i; next}{print}' < $1
 
 
