@@ -1,5 +1,5 @@
 #!/bin/bash
-	if [ -z "$1" ] ; then
+	function help() {
 	echo "
 	=== bb_remove_empty_lines ===
 	
@@ -11,8 +11,17 @@
 	Usage: 
 	bb_remove_empty_lines [INPUT FILE]
 	"
-	exit 0
+	}
+
+	if [ $# -ge 1 -a -f "$1" ]; then
+		input="$1" 
+	else
+		input="-" 
+		if [[ -t 0 ]]; then
+			help
+			exit 0
+		fi
 	fi
 	
-	sed '/^$/d' $1
+	sed -e '/^$/d' $input
 

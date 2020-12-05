@@ -1,0 +1,51 @@
+#!/bin/bash
+	function help() {
+	echo "
+	=== bb_benchmark_script ===
+	
+	bb_benchmark_script : 
+	Given a large input file and a list of bash scripts,
+	this function outputs a table of the time that the
+	script took to run.
+
+	Col1 size of the file tested, Col2 and forward are
+	the time for each bash script.
+
+	The scripts to be benchmarked should support the flowing
+	input format:
+	
+	script [INPUT FILE]
+	
+	Missing argument.
+	
+	Usage: 
+	bb_benchmark_script [INPUT FILE] [SCRIPTS LIST] ...
+	" 
+	}
+
+	if [ -z "$2" ] ; then
+		help
+		exit 0
+	fi
+
+	input=$1
+	shift
+
+	file_len=$(wc -l $input | awk '{print $1}')
+	file_chunk=$(wc -l $input | awk '{printf "%d", $1/5}')
+
+	printf "size\t"
+	for f in $* ; do
+		printf "$f\t"
+	done
+	printf "\n"
+
+	FILE=$(bb_create_tmp_file)
+	for (( c=$file_chunk; c<=$file_len; c+=$file_chunk )); do
+		head -n $c $input > $FILE
+		printf "$c\t"
+		for f in $* ; do
+			(time $f $FILE > /dev/null) 2>&1 > /dev/null | awk '/real/{printf $2"\t"}'
+		done
+		printf "\n"
+	done

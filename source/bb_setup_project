@@ -31,28 +31,33 @@
 #results/
 #manuscript/
 
-	if [ -z "$1" ] ; then
-		echo "
-	=== bb_project_setup ===
-	
-	bb_project_setup: 
-	Sets up a template directory structure for general
-	analysis in Bioinformatics.
-	
-	Missing argument.
-	
-	Usage: 
-	bb_project_setup [PROJECT_NAME]
-	(Note that spaces are not allowed in: PROJECT_NAME) 
-	"
-		exit 0
+	if [ $# -ge 1 -a -f "$1" ]; then
+		input="$1" 
+	else
+		input="-" 
+		if [[ -t 0 ]]; then
+			echo "
+			=== bb_project_setup ===
+			
+			bb_project_setup: 
+			Sets up a template directory structure for general
+			analysis in Bioinformatics.
+			
+			Missing argument.
+			
+			Usage: 
+			bb_project_setup [PROJECT_NAME]
+			(Note that spaces are not allowed in: PROJECT_NAME) 
+			"
+			exit 0
+		fi
 	fi
 
 	#create project's root directory it will be in the form:
 	# 20201024_MyProjectName
 	actualDate=$(date)
 	mydate=$(date +"%Y%m%d")
-	rootDir=$(echo "$mydate-$1")
+	rootDir=$(echo "$mydate-$input")
 
 	if [[ -d $rootDir ]];then
 		echo " 

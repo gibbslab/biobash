@@ -2,7 +2,7 @@
 #This script was adapted from:
 # https://bioinformaticsworkbook.org/dataWrangling/fastaq-manipulations/converting-fastq-format-to-fasta.html#gsc.tab=0
 
-	if [ -z "$1" ] ; then
+	function help() {
 	echo "
 	=== bb_fastq2fasta ===
 	
@@ -14,8 +14,17 @@
 	Usage: 
 	bb_fastq2fasta: [INPUT FILE]
 	"
-	exit 0
+	}
+
+	if [ $# -ge 1 -a -f "$1" ]; then
+		input="$1" 
+	else
+		input="-" 
+		if [[ -t 0 ]]; then
+			help
+			exit 0
+		fi
 	fi
 
 	#Read every 4 lines
-	sed -n '1~4s/^@/>/p;2~4p' $1
+	sed -n --expression='1~4s/^@/>/p;2~4p' $input

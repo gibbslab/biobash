@@ -1,6 +1,5 @@
 #!/bin/bash
-
-	if [ -z "$1" ] ; then
+	function help() {
 	echo "	
 	=== bb_count_seqs ===
 	
@@ -11,22 +10,49 @@
 	
 	Usage: 
 	bb_count_seqs [INPUT FILE]
+	cat [INPUT FILE] | bb_count_seqs --extension [EXTENSION NAME]
 	
 	Expects the following file extensions: .fasta, .fastq,
 	.fa or .fq
 	"	
-	exit 0
+	}
+
+	POSITIONAL=()
+	while [[ $# -gt 0 ]]; do
+	key="$1"
+
+	case $key in
+		-e|--extension)
+		EXTENSION="$2"
+		shift # past argument
+		shift # past value
+		;;
+		*)    # unknown option
+		POSITIONAL+=("$1") # save it in an array for later
+		shift # past argument
+		;;
+	esac
+	done
+	set -- "${POSITIONAL[@]}" # restore positional parameters
+
+	if [ $# -ge 1 -a -f "$1" ]; then
+		input="$1" 
+	else
+		input="-" 
+		if [ -t 0 -o -z "$EXTENSION" ]; then
+			help
+			exit 0
+		fi
 	fi
 
-	if [ "${1##*.}" = "fasta" ] || [ "${1##*.}" = "fa" ]; then
+	if [ "${1##*.}" = "fasta" ] || [ "${1##*.}" = "fa" ] || [ "$EXTENSION" = "fasta" ]; then
 
-		grep -c '>' $1
+		grep -c '>' $input
 		exit 0
-	fi
 
-	if [ "${1##*.}" = "fastq" ] || [ "${1##*.}" = "fq" ]; then
+	elif [ "${1##*.}" = "fastq" ] || [ "${1##*.}" = "fq" ] || [ "$EXTENSION" = 'fastq' ]; then
 
-		x=$(wc -l $1 | awk '{ print $1 }') 
+		x=$(wc -l $input | awk '{ print $1 }') 
 		var3=$(bc <<< "$x / 4")
 		echo $var3
 		exit 0
