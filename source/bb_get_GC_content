@@ -14,12 +14,20 @@
 	"
 	}
 
-	if [ -z "$1" ] ; then
-		help
-		exit 0
-	fi
+	LOCATION_TMP_FILE=$(bb_create_tmp_file)
 
-	isMultiple=$(grep -c '>' $1)
+	if [ $# -ge 1 -a -f "$1" ]; then
+		input="$1" 
+	else 
+		if [ -t 0 ]; then
+			help
+			exit 0
+		fi
+	fi
+	
+	cat $input > $LOCATION_TMP_FILE
+
+	isMultiple=$(grep -c '>' $LOCATION_TMP_FILE)
 
 	if [ "$isMultiple" -gt "1" ] ; then
 		echo "This is a multiple fasta file. You need a single fasta file."
@@ -27,11 +35,12 @@
 		exit
 	fi
 
-	numResidues=$(bb_count_residues $1)
-	g=$(cat $1 | sed -e '/^>/d' | tr -d '\n' | grep -oi 'G' | wc -l | awk '{print $1}')
-	c=$(cat $1 | sed -e '/^>/d' | tr -d '\n' | grep -oi 'C' | wc -l | awk '{print $1}')
-	perc=$(echo "(($g+$c)*100)/$numResidues" | bc)
+	numResidues=$(bb_count_residues $LOCATION_TMP_FILE)
+	g=$(cat $LOCATION_TMP_FILE | sed -e '/^>/d' | tr -d '\n' | grep -oi 'G' | wc -l | awk '{print $1}')
+	c=$(cat $LOCATION_TMP_FILE | sed -e '/^>/d' | tr -d '\n' | grep -oi 'C' | wc -l | awk '{print $1}')
+	perc=$(echo "(($g+$c)*100)/$numResidues" | bc -l)
 	echo "$perc"
+	rm $LOCATION_TMP_FILE
 	#brute force algorithm above, can be improved using AWK's split function:
 	#http://stackoverflow.com/questions/8009664/split-string-to-array-using-awk
 	#or with the following code corrected (take out end of line chars)
@@ -39,5 +48,7 @@
 	#nonAT=$(echo "$noHead" | tr -d 'AaTt\n')
 	#echo "$nonAT"
 	#echo "$nonAT" | wc -m
-		
+	
+	
+
 	
