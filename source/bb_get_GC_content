@@ -10,7 +10,7 @@
 	Missing argument.
 	
 	Usage: 
-	bb_get_GC_content [INPT FILE]
+	bb_get_GC_content [INPUT FILE]
 	"
 	}
 
@@ -30,7 +30,7 @@
 	numResidues=$(bb_count_residues $1)
 	g=$(cat $1 | sed -e '/^>/d' | tr -d '\n' | grep -oi 'G' | wc -l | awk '{print $1}')
 	c=$(cat $1 | sed -e '/^>/d' | tr -d '\n' | grep -oi 'C' | wc -l | awk '{print $1}')
-	perc=$(echo "(($g+$c)*100)/$numResidues" | bc)
+	perc=$(echo "(($g+$c)*100)/$numResidues" | bc -l)
 	echo "$perc"
 	#brute force algorithm above, can be improved using AWK's split function:
 	#http://stackoverflow.com/questions/8009664/split-string-to-array-using-awk

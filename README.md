@@ -6,8 +6,7 @@ on bioinformatics data analysis.
 Therefore, these scripts cover different tasks that are not all necessarily "bioinformatics" tasks,
 but "bioinformatics-related" tasks, such as data manipulation, data filtering and organization etc.
 
-This project started as a weekend exercise in 2015 and then was kind of abandoned for several years (although the scripts developed
-have shown to be useful during these years!!!).
+This project started as a weekend exercise in 2015 and then was kind of abandoned for several years (although the scripts developed have shown to be useful during these years!!!).
 
 As for this release there are these routines:
 
