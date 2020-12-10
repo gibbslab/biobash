@@ -1,0 +1,55 @@
+#!/bin/bash
+	function help() {
+	echo "
+	=== bb_split_fastq ===
+	
+	bb_split_fastq: 
+	Split forward and reverse reads of a fastq file.
+	
+	Missing argument.
+	
+	Usage: 
+	bb_split_fastq [INPUT FILE]
+	"
+	}
+
+	OUTPUT_1="forward.fq"
+	OUTPUT_2="reverse.fq"
+
+	POSITIONAL=()
+	while [[ $# -gt 0 ]]; do
+	key="$1"
+
+	case $key in
+		-o|--output)
+		OUTPUT_1="$2"
+		OUTPUT_2="$3"
+		shift # past argument
+		shift # past value
+		shift # past value
+		;;
+		*)    # unknown option
+		POSITIONAL+=("$1") # save it in an array for later
+		shift # past argument
+		;;
+	esac
+	done
+	set -- "${POSITIONAL[@]}" # restore positional parameters
+	
+	if [ $# -ge 1 -a -f "$1" ]; then
+		input="$1" 
+	else 
+		if [ -t 0 ] || [ -z "$OUTPUT_1" ]; then
+			help
+			exit 0
+		fi
+	fi
+	
+	LOCATION_TMP_FILE=$(bb_create_tmp_file)
+
+	cat $input > $LOCATION_TMP_FILE
+	
+	sed -n '1~4p' $LOCATION_TMP_FILE | grep '/1$'| grep -A 3 --no-group-separator -F -x -f - $LOCATION_TMP_FILE > ./$OUTPUT_1
+	sed -n '1~4p' $LOCATION_TMP_FILE | grep '/2$'| grep -A 3 --no-group-separator -F -x -f - $LOCATION_TMP_FILE > ./$OUTPUT_2
+
+	rm $LOCATION_TMP_FILE
