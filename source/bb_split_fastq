@@ -45,7 +45,7 @@
 		fi
 	fi
 	
-	LOCATION_TMP_FILE=$(bb_create_tmp_file)
+	LOCATION_TMP_FILE="/tmp/$RANDOM"
 
 	cat $input > $LOCATION_TMP_FILE
 	

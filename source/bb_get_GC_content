@@ -14,7 +14,7 @@
 	"
 	}
 
-	LOCATION_TMP_FILE=$(bb_create_tmp_file)
+	LOCATION_TMP_FILE="/tmp/$RANDOM"
 
 	if [ $# -ge 1 -a -f "$1" ]; then
 		input="$1" 
