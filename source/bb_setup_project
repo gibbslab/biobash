@@ -34,7 +34,6 @@
 	if [ $# -ge 1 -a -f "$1" ]; then
 		input="$1" 
 	else
-		input="-" 
 		if [[ -t 0 ]]; then
 			echo "
 			=== bb_project_setup ===

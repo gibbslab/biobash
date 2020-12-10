@@ -23,7 +23,6 @@
 			help
 			exit 0
 		fi
-		input="-" 
 		pattern=$1
 	fi
 
