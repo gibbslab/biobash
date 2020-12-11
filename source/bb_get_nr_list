@@ -29,9 +29,9 @@
 		fi
 	fi
 	
-	FILEA=$(bb_create_tmp_file)
-	FILEB=$(bb_create_tmp_file)
-	FILEC=$(bb_create_tmp_file)
+	FILEA="/tmp/$RANDOM"
+	FILEB="/tmp/$RANDOM"
+	FILEC="/tmp/$RANDOM"
 	
 	cat $input | sort  > $FILEA
 	uniq -u $FILEA > $FILEB

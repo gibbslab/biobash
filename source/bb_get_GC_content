@@ -10,7 +10,7 @@
 	Missing argument.
 	
 	Usage: 
-	bb_get_GC_content [INPT FILE]
+	bb_get_GC_content [INPUT FILE]
 	"
 	}
 

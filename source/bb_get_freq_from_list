@@ -19,8 +19,9 @@
 		exit 0
 	fi
 
-	FILE=$(bb_create_tmp_file)
-	FILE2=$(bb_create_tmp_file)
+	FILE="/tmp/$RANDOM"
+	FILE2="/tmp/$RANDOM"
+	
 	cat $1 | sort | uniq -c > $FILE
 	numCat=$(wc -l $1 | awk '{print $1}') #number of items in list
 	while read line
