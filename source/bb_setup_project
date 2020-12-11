@@ -31,24 +31,27 @@
 #results/
 #manuscript/
 
+function help() {
+	echo "
+	=== bb_project_setup ===
+	
+	bb_project_setup: 
+	Sets up a template directory structure for general
+	analysis in Bioinformatics.
+	
+	Missing argument.
+	
+	Usage: 
+	bb_project_setup [PROJECT_NAME]
+	(Note that spaces are not allowed in: PROJECT_NAME) 
+	"	
+	}
+
 	if [ $# -ge 1 -a -f "$1" ]; then
 		input="$1" 
 	else
-		input="-" 
 		if [[ -t 0 ]]; then
-			echo "
-			=== bb_project_setup ===
-			
-			bb_project_setup: 
-			Sets up a template directory structure for general
-			analysis in Bioinformatics.
-			
-			Missing argument.
-			
-			Usage: 
-			bb_project_setup [PROJECT_NAME]
-			(Note that spaces are not allowed in: PROJECT_NAME) 
-			"
+			help
 			exit 0
 		fi
 	fi

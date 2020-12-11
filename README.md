@@ -20,6 +20,8 @@ As for this release there are these routines:
 * bb_get_GC_content (Determines the %GC in a fasta file)
 * bb_fastq2fasta (Converts a fastq file in a fasta file)
 * bb_rename_fasta_entries (Sequentially renames all fasta entries in a multiple fasta file)
+* bb_get_seq_length (Displays sequences length from a single/multiple fasta file)
+* bb_split_fastq (Split forward and reverse reads of a fastq file)
 
 ### LISTS AND GENERAL FILE MANIPULATION
 * bb_dos2unix (Removes non UNIX characters from a file)

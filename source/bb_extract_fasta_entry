@@ -30,7 +30,6 @@
 		input="$1" 
 		shift 1
 	else
-		input="-" 
 		if [[ -t 0 ]]; then
 			help
 			exit 0
