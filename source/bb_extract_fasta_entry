@@ -1,5 +1,6 @@
 #!/bin/bash
 #Comments: this can be helpful,Extracts from line 5 to 10 in input.txt file: sed -n '5,10 p' input.txt
+	
 	function help() {
 	echo "
 	=== bb_extract_fasta_entry ===
@@ -10,47 +11,29 @@
 	Missing argument.
 	
 	Usage: 
-	bb_extract_fasta_entry [INPUT FILE] [SEQUENCE_IDs] ...
+	bb_extract_fasta_entry [INPUT FILE] [SEQUENCE IDs ... ]
 	"
-	}
-	
-	# See if the first argument is equal to another argument
-	in_args() {
-		local _line=$1
-		shift 1
-		for f in $* ; do
-			if [ $f == $_line ]; then 
-				return 0
-			fi
-		done
-		return 1
+	exit 0
 	}
 
 	if [ $# -ge 1 -a -f "$1" ]; then
 		input="$1" 
 		shift 1
 	else
-		if [[ -t 0 ]]; then
-			help
-			exit 0
-		fi
+		help
+		exit 0
 	fi
 
-	match=1
+	#anchor finds the row number of the sequence to extract, it comes in the form:
+	#line_number:fasta_header
+	#120:>Prodigal Gene 2 # 2901 # 3311 # 1 is extracted with "cut"
+	grep -nwf <(echo "$*" | tr " " "\n") "$input" |
+	while read line; do
+		#extract the line number
+		anchor=${line%%:*}
 
-	cat $input | while read line; do
-		# if the line begins with ">" is_header = 1
-		is_header=$(echo "$line" | grep -c '^>')
-		if [ $is_header -lt 1 ]; then
-			# If inside a matching entry print contents
-			[[ $match -eq 0 ]] && echo "$line"
-		else
-			# Check if the entry header is the arguments list
-			if in_args ${line:1} $* ; then
-				echo $line
-				match=0
-			else 
-				match=1
-			fi
-		fi
+		sed -n "$anchor"',/^>/ {
+			'"$anchor"' p
+			/^>/ !p
+		}' "$input"	
 	done
