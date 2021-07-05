@@ -2,20 +2,20 @@
 #This script was adapted from:
 # https://bioinformaticsworkbook.org/dataWrangling/fastaq-manipulations/converting-fastq-format-to-fasta.html#gsc.tab=0
 
-	if [ -z "$1" ] ; then
-	echo "
-	=== bb_fastq2fasta ===
+if [ -z "$1" ] ; then
+    echo "
+    === bb_fastq2fasta ===
 	
-	bb_fastq2fasta: 
-	Converts fastq into fasta.
+    bb_fastq2fasta: 
+    Converts fastq into fasta.
 	
-	Missing argument.
+    Missing argument.
 	
-	Usage: 
-	bb_fastq2fasta: [INPUT FILE]
-	"
-	exit 0
-	fi
+    Usage: 
+    bb_fastq2fasta: [INPUT FILE]
+    "
+    exit 0
+fi
 
-	#Read every 4 lines
-	sed -n '1~4s/^@/>/p;2~4p' $1
+#Read every 4 lines
+sed -n '1~4s/^@/>/p;2~4p' $1

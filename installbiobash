@@ -36,6 +36,9 @@ if [ -d "$installDir" ];then
         
         echo "Installing to: $installDir"
         cp ./source/*bb_* $installDir
+        
+        #make sure permission are correctly set for all scripts
+        chmod +x ${installDir}/bb_*
         echo "Installation complete. Thank you for installing BIOBASH
         
         "
