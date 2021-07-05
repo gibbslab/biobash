@@ -1,21 +1,21 @@
 #!/bin/bash
-	#This script is  called by bb_get_GC_content!!!!!!
-	if [ -z "$1" ] ; then
-	echo "
-	=== bb_count_residues ===
+#This script is  called by bb_get_GC_content!!!!!!
+if [ -z "$1" ] ; then
+    echo "
+    === bb_count_residues ===
 	
-	bb_count_residues: 
-	Counts the number of residues in a file, without taking 
-	into account fasta headers.
+    bb_count_residues: 
+    Counts the number of residues in a file, without taking 
+    into account fasta headers.
 	
-	Missing argument.
+    Missing argument.
 	
-	Usage: 
-	bb_count_residues [INPUT FILE]
-	"
-	exit 0
-	fi
+    Usage: 
+    bb_count_residues [INPUT FILE]
+    "
+    exit 0
+fi
 	
-	# first colum is obtained from result, otherwise an space appears at left.
-	cat $1 | sed -e '/^>/d' | tr -d '\n' | wc -m | awk '{print $1}'
+# first colum is obtained from result, otherwise an space appears at left.
+cat $1 | sed -e '/^>/d' | tr -d '\n' | wc -m | awk '{print $1}'
 	

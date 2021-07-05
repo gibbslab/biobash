@@ -1,38 +1,39 @@
 #!/bin/bash
 
-	if [ -z "$1" ] ; then
-	echo "
-	=== bb_get_GC_content ===
+if [ -z "$1" ] ; then
+    echo "
+    === bb_get_GC_content ===
 	
-	bb_get_GC_content: 
-	Gets the GC percentage of a file.
+    bb_get_GC_content: 
+    Gets the GC percentage of a file.
 	
-	Missing argument.
+    Missing argument.
 	
-	Usage: 
-	bb_get_GC_content [INPT FILE]
-	"
-	exit 0
-	fi
+    Usage: 
+    bb_get_GC_content [INPUT FILE]
+    "
+    exit 0
+fi
 
-	isMultiple=$(grep -c '>' $1)
+#check if we have a single or multiple fasta file.
+isMultiple=$(grep -c '>' $1)
 
-	if [ "$isMultiple" -gt "1" ] ; then
-		echo "This is a multiple fasta file. You need a single fasta file."
-		exit
-	fi
+if [ "$isMultiple" -gt "1" ] ; then
+    echo "This is a multiple fasta file. Please provide  a single fasta file."
+    exit 0
+fi
 
-	numResidues=$(bb_count_residues $1)
-	g=$(cat $1 | sed -e '/^>/d' | tr -d '\n' | grep -oi 'G' | wc -l | awk '{print $1}')
-	c=$(cat $1 | sed -e '/^>/d' | tr -d '\n' | grep -oi 'C' | wc -l | awk '{print $1}')
-	perc=$(echo "(($g+$c)*100)/$numResidues" | bc)
-	echo "$perc"
-	#brute force algorithm above, can be improved using AWK's split function:
-	#http://stackoverflow.com/questions/8009664/split-string-to-array-using-awk
-	#or with the following code corrected (take out end of line chars)
-	#noHead=$(bb_remove_fasta_header $1)
-	#nonAT=$(echo "$noHead" | tr -d 'AaTt\n')
-	#echo "$nonAT"
-	#echo "$nonAT" | wc -m
-		
-	
+#!!! We have here a BIOBASH dependency be careful.
+numResidues=$(bb_count_residues $1)
+
+g=$(cat $1 | sed -e '/^>/d' | tr -d '\n' | grep -oi 'G' | wc -l | awk '{print $1}')
+c=$(cat $1 | sed -e '/^>/d' | tr -d '\n' | grep -oi 'C' | wc -l | awk '{print $1}')
+perc=$(echo "(($g+$c)*100)/$numResidues" | bc)
+echo "$perc"
+#brute force algorithm above, can be improved using AWK's split function:
+#http://stackoverflow.com/questions/8009664/split-string-to-array-using-awk
+#or with the following code corrected (take out end of line chars)
+#noHead=$(bb_remove_fasta_header $1)
+#nonAT=$(echo "$noHead" | tr -d 'AaTt\n')
+#echo "$nonAT"
+#echo "$nonAT" | wc -m	

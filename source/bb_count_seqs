@@ -1,39 +1,39 @@
 #!/bin/bash
 
-	if [ -z "$1" ] ; then
-	echo "	
-	=== bb_count_seqs ===
+if [ -z "$1" ] ; then
+    echo "	
+    === bb_count_seqs ===
 	
-	bb_count_seqs: 
-	Counts the number of fasta or fastq sequences in a file.
+    bb_count_seqs: 
+    Counts the number of fasta or fastq sequences in a file.
 	
-	Missing argument.
+    Missing argument.
 	
-	Usage: 
-	bb_count_seqs [INPUT FILE]
+    Usage: 
+    bb_count_seqs [INPUT FILE]
 	
-	Expects the following file extensions: .fasta, .fastq,
-	.fa or .fq
-	"	
-	exit 0
-	fi
+    Expects the following file extensions: .fasta, .fastq,.fa or .fq
+    "	
+    exit 0
+fi
 
-	if [ "${1##*.}" = "fasta" ] || [ "${1##*.}" = "fa" ]; then
+#Let's check for file extensions
+if [ "${1##*.}" = "fasta" ] || [ "${1##*.}" = "fa" ]; then
 
-		grep -c '>' $1
-		exit 0
-	fi
+    grep -c '>' $1
+    exit 0
+fi
 
-	if [ "${1##*.}" = "fastq" ] || [ "${1##*.}" = "fq" ]; then
+if [ "${1##*.}" = "fastq" ] || [ "${1##*.}" = "fq" ]; then
+    
+    #Get the total number of lines in file
+    x=$(wc -l $1 | awk '{ print $1 }') 
 
-		x=$(wc -l $1 | awk '{ print $1 }') 
-		var3=$(bc <<< "$x / 4")
-		echo $var3
-		exit 0
-	else
-		echo "ERROR: Unable to process input file."
-		echo "It seems your file is not fasta (.fasta, .fa) or fastq (.fastq, .fq) file."
-	fi
-
-	
-
+    #Since fastq files are 4 lines long..
+    var3=$(bc <<< "$x / 4")
+    echo $var3
+    exit 0
+else
+    echo "ERROR: Unable to process input file."
+    echo "It seems your file is not fasta (.fasta, .fa) or fastq (.fastq, .fq) file."
+fi

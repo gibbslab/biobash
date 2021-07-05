@@ -2,19 +2,19 @@
 #Usually this function would remove all windows characters from end of line...
 #not sure about it, maybe get it out or create a more robust one.
 	
-	if [ -z "$1" ] ; then
-	echo "
-	=== bb_dos2unix ===
+if [ -z "$1" ] ; then
+    echo "
+    === bb_dos2unix ===
 	
-	bb_dos2unix: 
-	Removes windows characters from end of line.
+    bb_dos2unix: 
+    Removes windows characters from end of line.
 	
-	Missing argument.
+    Missing argument.
 	
-	Usage: 
-	bb_dos2unix [INPUT FILE]
-	"
-	exit 0
-	fi
+    Usage: 
+    bb_dos2unix [INPUT FILE]
+    "
+    exit 0
+fi
 	
-	cat $1 | col -b
+cat $1 | col -b

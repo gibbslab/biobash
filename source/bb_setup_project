@@ -9,72 +9,79 @@
 # "Someone unfamiliar with your project should be able to look at your computer files 
 # and understand in detail what you did and why" (Noble, 2009).
 #
-#YYMMDD_PROJECTNAME/
-#ABOUT.txt  -->general info about the project(collab. emails, abstract, date started, deadlines etc).
-#NOTEBOOK.md -->(Title PROJECTNAME, and dated entries)
-#sandbox/ --> test "something" before applying it to data.
+#This is the directory structure created by this script:
 #
-#data
-# ... |_raw_data/ -->data here is NOT writable.
-# ... |_other_data --> other input data that is not raw (tables or other info).
-#analysis/
-#  ...|_01_QC/
-#  ...|_02_cleaning/
-#  ...|_03_Alignment
-#  ...|_04_Assembly
-#  ...|_05_Annotation 
-#tmp/
-#tools/ -->specific project software and scripts
-#  ...|_soft
-#  ...|_scripts/ -->conectado a github
-#docs/
-#results/
-#manuscript/
+# 20210704-projectName/
+# ├── about.md
+# ├── analysis
+# │   ├── 01
+# │   ├── 02
+# │   ├── 03
+# │   ├── 04
+# │   └── README.analysis.md
+# ├── data
+# │   ├── README.data.md
+# │   ├── other_data
+# │   └── raw_data
+# ├── docs
+# │   └── README.docs.md
+# ├── manuscript
+# ├── notebook.md
+# ├── results
+# │   └── README.results.md
+# ├── sandbox
+# │   └── README.sandbox.md
+# ├── tmp
+# │   └── README.tmp.md
+# └── tools
+#     ├── README.tools.md
+#     ├── scripts
+#     └── soft
 
-	if [ -z "$1" ] ; then
-		echo "
-	=== bb_project_setup ===
+if [ -z "$1" ] ; then
+    echo "
+    === bb_project_setup ===
 	
-	bb_project_setup: 
-	Sets up a template directory structure for general
-	analysis in Bioinformatics.
+    bb_project_setup: 
+    Sets up a template directory structure for general
+    analysis in Bioinformatics.
 	
-	Missing argument.
+    Missing argument.
 	
-	Usage: 
-	bb_project_setup [PROJECT_NAME]
-	(Note that spaces are not allowed in: PROJECT_NAME) 
-	"
-		exit 0
-	fi
+    Usage: 
+    bb_project_setup [PROJECT_NAME]
+    (Note that spaces are not allowed in: PROJECT_NAME) 
+    "
+    exit 0
+fi
 
-	#create project's root directory it will be in the form:
-	# 20201024_MyProjectName
-	actualDate=$(date)
-	mydate=$(date +"%Y%m%d")
-	rootDir=$(echo "$mydate-$1")
+#create project's root directory it will be in the form:
+# 20201024_MyProjectName
+actualDate=$(date)
+mydate=$(date +"%Y%m%d")
+rootDir=$(echo "$mydate-$1")
 
-	if [[ -d $rootDir ]];then
-		echo " 
+if [[ -d $rootDir ]];then
+    echo " 
         
-		[WARNING] Directory $rootDir already exists. Please remove/rename before creating a new project. Good bye.
+    [WARNING] Directory $rootDir already exists. Please remove/rename before creating a new project. Good bye.
         
-		"
-		exit 0
-	fi
+    "
+    exit 0
+fi
 
-	mkdir $rootDir
-	cd $rootDir
+mkdir $rootDir
+cd $rootDir
 
 
-	#
-	#Create notebook file.
-	#
-	touch notebook.md
-	echo "
-	#                      PROJECT'S NOTEBOOK
+#
+#Create notebook file.
+#
+touch notebook.md
+echo "
+#                      PROJECT'S NOTEBOOK
 
-	This is a template for project notebook. The idea is to register
+        This is a template for project notebook. The idea is to register
 	all commands and related info, everything should dated.
 
 	##$actualDate: Initial steps
@@ -90,11 +97,11 @@
 	" >> notebook.md
 
 
-	#
-	#Create about file.
-	#
-	touch about.md
-	echo "
+#
+#Create about file.
+#
+touch about.md
+echo "
 	#                      ABOUT THIS PROJECT
 
 	* Project started on: $actualDate
@@ -106,10 +113,10 @@
 	## RELATED INFO
 	" >> about.md
 
-	#
-	# Create README template
-	#
-	echo "
+#
+# Create README template
+#
+echo "
 	# README                
 
 	## $actualDate
@@ -119,33 +126,33 @@
 	Other important info related to this particular folder
 	" > README.tpt
 
-	#
-	# Create directories and README files.
-	# Seems not, but it is very useful to have a single README in each directory.
-	#
-	mkdir sandbox data tmp tools docs results manuscript analysis
-	cp README.tpt sandbox/README.sandbox.md
-	cp README.tpt data/README.data.md
-	cp README.tpt analysis/README.analysis.md
-	cp README.tpt tools/README.tools.md
-	cp README.tpt tmp/README.tmp.md
-	cp README.tpt docs/README.docs.md
-	cp README.tpt results/README.results.md
+#
+# Create directories and README files.
+# Seems not, but it is very useful to have a single README in each directory.
+#
+mkdir sandbox data tmp tools docs results manuscript analysis
+cp README.tpt sandbox/README.sandbox.md
+cp README.tpt data/README.data.md
+cp README.tpt analysis/README.analysis.md
+cp README.tpt tools/README.tools.md
+cp README.tpt tmp/README.tmp.md
+cp README.tpt docs/README.docs.md
+cp README.tpt results/README.results.md
 
-	rm README.tpt
+rm README.tpt
 
-	#Create sub-directories
-	cd ./analysis
-	mkdir 01 02 03 04
-	cd ../tools
-	mkdir soft scripts
-	cd ../data
-	mkdir raw_data other_data
-	echo "
+#Create sub-directories
+cd ./analysis
+mkdir 01 02 03 04
+cd ../tools
+mkdir soft scripts
+cd ../data
+mkdir raw_data other_data
+echo "
 	=== DONE!==
 	Environment created. REMEMBER that raw_data directory permissions
 	should be set like: chmod -R -w raw_data, to prevent erasing raw data.
 	Good bye.
 	===========
 
-	"
+"

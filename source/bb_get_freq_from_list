@@ -1,39 +1,54 @@
 #!/bin/bash
-	if [ -z "$1" ] ; then
-	echo "
-	=== bb_get_freq_from_list ===
+if [ -z "$1" ] ; then
+    echo "
+    === bb_get_freq_from_list ===
 	
-	bb_get_freq_from_list: 
-	Given a one column list of items, this function outputs
-	three columns: Col1 frequency of item, Col2 Relative 
-	percentage, Col3 the item itself.
+    bb_get_freq_from_list: 
+    Given a one column list of items, this function outputs
+    three columns: Col1 frequency of item, Col2 Relative 
+    percentage, Col3 the item itself.
 	
-	Missing argument.
+    Missing argument.
 	
-	Usage: 
-	bb_get_freq_from_list [INPUT FILE]
-	"
-	exit 0
-	fi
+    Usage: 
+    bb_get_freq_from_list [INPUT FILE]
+    "
+    exit 0
+fi
 
-	FILE=$(bb_create_tmp_file)
-	FILE2=$(bb_create_tmp_file)
-	cat $1 | sort | uniq -c > $FILE
-	numCat=$(wc -l $1 | awk '{print $1}') #number of items in list
-	while read line
-		do	
-			#get first colum: frequency. At this point each row in FILE variable looks like:
-			#    2 A
-			#So we will get the first column (2) and second one (A),
-			freq=$(echo $line | awk '{print $1}') 
-			freq=$(echo $freq "	") #put a tab after the column
-			col2=$(echo $line | cut -d " " -f2-) #get everything from second column on.
-			#More on the "scale" special variable and other bc stuff:
-			#https://www.gnu.org/software/bc/manual/html_mono/bc.html
-			perc=$(echo "scale=2;($freq*100)/$numCat" | bc -l)
-			perc=$(echo $perc "	")
-			echo "$freq" "$perc" "$col2" >> $FILE2
+#!!! Here we have a BIOBASH dependency.Watch out!
+FILE=$(bb_create_tmp_file)
+FILE2=$(bb_create_tmp_file)
 
-	done < $FILE
-	sort -gr $FILE2 #gr numerical sort in reverse order.
+# The -c precedes the output with the number of times the line appears.
+# Example:
+#
+# 2 itemA
+# 5 itemX
+#
+# Then save to file
+
+cat $1 | sort | uniq -c > $FILE
+
+#Get the total number of items in the input file.
+numCat=$(wc -l $1 | awk '{print $1}') #number of items in list
+
+#Here one we are going to iterate through the file just created above
+while read line
+do	
+    # get first colum: frequency. At this point each row in FILE variable looks like:
+    #    2 itemA
+    # So we will get the first column (2) and second one (itemA),
+    freq=$(echo $line | awk '{print $1}') 
+    freq=$(echo $freq "	") #put a tab after the column
+    col2=$(echo $line | cut -d " " -f2-) #get everything from second column on.
+    #More on the "scale" special variable and other bc stuff:
+    #https://www.gnu.org/software/bc/manual/html_mono/bc.html
+    perc=$(echo "scale=2;($freq*100)/$numCat" | bc -l)
+    perc=$(echo $perc "	")
+    echo "$freq" "$perc" "$col2" >> $FILE2
+
+done < $FILE
+
+sort -gr $FILE2 #gr numerical sort in reverse order.
 
